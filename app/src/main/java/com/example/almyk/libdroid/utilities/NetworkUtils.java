@@ -73,11 +73,9 @@ public class NetworkUtils {
                 try {
                     Document doc = Jsoup.connect(url.toString()).get();
 
-                    Elements links = doc.select("a[href][title][id]");
+                    Elements links = doc.select("a[href*=book][title][id]");
                     for(Element link : links){
-                        if (link.attr("href").contains("book")){
-                            builder.append(link.text()).append("\n").append("----------\n");
-                        }
+                        builder.append(link.ownText()).append("\n").append("----------\n");
                     }
                     String title = builder.toString();
                     Message message = new Message();
