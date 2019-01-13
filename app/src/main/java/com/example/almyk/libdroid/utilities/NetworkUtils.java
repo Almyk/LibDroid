@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,9 +21,11 @@ public class NetworkUtils {
     final static String PARAM_REQUEST = "req";
     final static String PARAM_SORT = "sort";
     final static String PARAM_SORT_MODE = "sortmode";
+    final static String PARAM_RES_COUNT = "res";
 
     final static String SORT_BY_YEAR = "year";
-    final static String SORT_BY_DESC = "desc";
+    final static String SORT_BY_DESC = "DESC";
+    final static String RES_COUNT = "50";
 
     private static final int REQUEST_CODE_SHOW_RESPONSE_TEXT = 1;
     private static final String KEY_RESPONSE_TEXT = "KEY_RESPONSE_TEXT";
@@ -32,6 +36,7 @@ public class NetworkUtils {
                 .appendQueryParameter(PARAM_REQUEST, query)
                 .appendQueryParameter(PARAM_SORT, SORT_BY_YEAR)
                 .appendQueryParameter(PARAM_SORT_MODE, SORT_BY_DESC)
+                .appendQueryParameter(PARAM_RES_COUNT, RES_COUNT)
                 .build();
         URL url = null;
         try {
@@ -63,11 +68,18 @@ public class NetworkUtils {
         Thread sendHttpRequestThread = new Thread(){
             @Override
             public void run() {
+                StringBuilder builder = new StringBuilder();
 
                 try {
                     Document doc = Jsoup.connect(url.toString()).get();
-                    String title = doc.title();
 
+                    Elements links = doc.select("a[href][title][id]");
+                    for(Element link : links){
+                        if (link.attr("href").contains("book")){
+                            builder.append(link.text()).append("\n").append("----------\n");
+                        }
+                    }
+                    String title = builder.toString();
                     Message message = new Message();
                     message.what = REQUEST_CODE_SHOW_RESPONSE_TEXT;
                     Bundle bundle = new Bundle();
