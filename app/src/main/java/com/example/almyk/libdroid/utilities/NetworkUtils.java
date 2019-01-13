@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class NetworkUtils {
             @Override
             public void run() {
                 HttpURLConnection urlConnection = null;
+                StringBuffer stringBuffer = new StringBuffer();
 
                 try {
                     urlConnection = (HttpURLConnection) url.openConnection();
@@ -68,11 +70,19 @@ public class NetworkUtils {
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     String line = bufferedReader.readLine();
+
+                    while(line != null){
+                        Log.e("LINE", line);
+                        stringBuffer.append(line);
+                        line = bufferedReader.readLine();
+                    }
+
                     Message message = new Message();
                     message.what = REQUEST_CODE_SHOW_RESPONSE_TEXT;
                     Bundle bundle = new Bundle();
-                    bundle.putString(KEY_RESPONSE_TEXT, line);
+                    bundle.putString(KEY_RESPONSE_TEXT, stringBuffer.toString());
                     message.setData(bundle);
+
                     uiUpdater.sendMessage(message);
                 } catch (Exception e) {
                     e.printStackTrace();
