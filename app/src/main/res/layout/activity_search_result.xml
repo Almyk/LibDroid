@@ -9,11 +9,11 @@
 
     <ProgressBar
         android:id="@+id/pb_getTitles"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+        style="@style/LinearProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="false"
-        android:max="100"
+        android:max="200"
         android:progress="1"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

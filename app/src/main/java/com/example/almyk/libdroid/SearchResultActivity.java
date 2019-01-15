@@ -28,7 +28,9 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private ArrayList<String> mBookTitleList = new ArrayList<>();
     private ArrayList<String> mBookDownload = new ArrayList<>();
+    private ArrayList<String> mAuthorList = new ArrayList<>();
 
+    private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
 
     @Override
@@ -36,6 +38,7 @@ public class SearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
+        mRecyclerView = findViewById(R.id.rv_book_list);
         mProgressBar = findViewById(R.id.pb_getTitles);
 
         final String query = getIntent().getStringExtra("query");
@@ -57,8 +60,9 @@ public class SearchResultActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             try {
                 Document doc = Jsoup.connect(mUrl.toString()).get();
-                mProgressBar.incrementProgressBy(30);
+                mProgressBar.incrementProgressBy(100);
 
+                // get titles
                 Elements links = doc.select("a[href*=book][class=tdn]");
                 for(Element link : links){
                     String title = link.ownText();
@@ -66,10 +70,19 @@ public class SearchResultActivity extends AppCompatActivity {
                     mProgressBar.incrementProgressBy(1);
                 }
 
-                links = doc.select("a[href][title=Download book]");
-                for(Element link : links){
-                    String url = link.attr("abs:href");
+                // get page where you can download the book
+                Elements dlPages = doc.select("a[href][title=Download book]");
+                for(Element page : dlPages){
+                    String url = page.attr("abs:href");
                     mBookDownload.add(url);
+                    mProgressBar.incrementProgressBy(1);
+                }
+
+                // get authors
+                Elements authors = doc.select("div[class=authors]");
+                for(Element author : authors){
+                    String name = author.text();
+                    mAuthorList.add(name);
                     mProgressBar.incrementProgressBy(1);
                 }
 
@@ -83,11 +96,10 @@ public class SearchResultActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             mProgressBar.setVisibility(View.INVISIBLE);
-            RecyclerView mRecyclerView = findViewById(R.id.rv_book_list);
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
-            DataAdapter mDataAdapter = new DataAdapter(mBookTitleList, mBookDownload);
+            DataAdapter mDataAdapter = new DataAdapter(mBookTitleList, mBookDownload, mAuthorList);
             mRecyclerView.setAdapter(mDataAdapter);
         }
     }

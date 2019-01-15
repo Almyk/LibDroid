@@ -24,21 +24,25 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
 
     private ArrayList<String> mBookTitleList = new ArrayList<>();
     private ArrayList<String> mBookDownloadList = new ArrayList<>();
+    private ArrayList<String> mAuthorList = new ArrayList<>();
 
-    public DataAdapter(ArrayList<String> bookTitleList, ArrayList<String> bookDownloadList){
+    public DataAdapter(ArrayList<String> bookTitleList, ArrayList<String> bookDownloadList, ArrayList<String> authorList){
         mBookTitleList = bookTitleList;
         mBookDownloadList = bookDownloadList;
+        mAuthorList = authorList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tv_book_title;
+        private TextView tv_author_name;
         private ImageButton ib_book_download;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_book_title = itemView.findViewById(R.id.tv_book_title);
+            tv_author_name = itemView.findViewById(R.id.tv_author_name);
             ib_book_download = itemView.findViewById(R.id.ib_download);
 
             ib_book_download.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +75,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.tv_book_title.setText(mBookTitleList.get(i));
+        myViewHolder.tv_author_name.setText(mAuthorList.get(i));
     }
 
     @Override
