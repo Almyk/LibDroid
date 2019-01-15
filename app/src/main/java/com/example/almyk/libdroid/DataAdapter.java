@@ -39,7 +39,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
         private ImageButton ib_book_download;
 
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
             tv_book_title = itemView.findViewById(R.id.tv_book_title);
             tv_author_name = itemView.findViewById(R.id.tv_author_name);
@@ -56,7 +56,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
 //                    dlRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 //                    DownloadManager dm = (DownloadManager) v.getContext().getSystemService(DOWNLOAD_SERVICE);
 //                    dm.enqueue(dlRequest);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(v.getContext(), ViewBookActivity.class);
+                    intent.putExtra("url", uri.toString());
                     v.getContext().startActivity(intent);
                 }
             });
