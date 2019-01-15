@@ -56,23 +56,21 @@ public class SearchResultActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                int progress = 0;
                 Document doc = Jsoup.connect(mUrl.toString()).get();
+                mProgressBar.incrementProgressBy(30);
 
                 Elements links = doc.select("a[href*=book][class=tdn]");
                 for(Element link : links){
                     String title = link.ownText();
                     mBookTitleList.add(title);
-                    progress++;
-                    mProgressBar.setProgress(progress);
+                    mProgressBar.incrementProgressBy(1);
                 }
 
                 links = doc.select("a[href][title=Download book]");
                 for(Element link : links){
                     String url = link.attr("abs:href");
                     mBookDownload.add(url);
-                    progress++;
-                    mProgressBar.setProgress(progress);
+                    mProgressBar.incrementProgressBy(1);
                 }
 
             } catch (IOException e) {
