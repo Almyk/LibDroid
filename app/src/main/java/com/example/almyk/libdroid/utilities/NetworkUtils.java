@@ -16,27 +16,37 @@ import java.net.URL;
 
 public class NetworkUtils {
 
-    final static String LIBGEN_BASE_URL = "http://libgen.io/search.php?";
+    // Strings for libgen.io
+    private final static String LIBGEN_BASE_URL = "http://libgen.io/search.php?";
+    private final static String L_PARAM_REQUEST = "req";
+    private final static String L_PARAM_SORT = "sort";
+    private final static String L_PARAM_SORT_MODE = "sortmode";
+    private final static String L_PARAM_RES_COUNT = "res";
+    private final static String L_SORT_BY_YEAR = "year";
+    private final static String L_SORT_BY_DESC = "DESC";
+    private final static String L_RES_COUNT = "50";
 
-    final static String PARAM_REQUEST = "req";
-    final static String PARAM_SORT = "sort";
-    final static String PARAM_SORT_MODE = "sortmode";
-    final static String PARAM_RES_COUNT = "res";
+    // Strings for b-ok.cc
+    private final static String BOK_BASE_URL = "https://b-ok.cc/s/?";
+    private final static String B_PARAM_REQUEST = "q";
+    private final static String B_PARAM_LANGUAGE = "language";
+    private final static String B_PARAM_EXTENSION = "extension";
+    private final static String B_LANGUAGE = "english";
+    private final static String B_EXTENSION = "epub";
 
-    final static String SORT_BY_YEAR = "year";
-    final static String SORT_BY_DESC = "DESC";
-    final static String RES_COUNT = "50";
 
     private static final int REQUEST_CODE_SHOW_RESPONSE_TEXT = 1;
     private static final String KEY_RESPONSE_TEXT = "KEY_RESPONSE_TEXT";
     private static Handler uiUpdater;
 
     public static URL buildUrl(String query){
-        Uri uri = Uri.parse(LIBGEN_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_REQUEST, query)
-                .appendQueryParameter(PARAM_SORT, SORT_BY_YEAR)
-                .appendQueryParameter(PARAM_SORT_MODE, SORT_BY_DESC)
-                .appendQueryParameter(PARAM_RES_COUNT, RES_COUNT)
+        Uri uri = Uri.parse(BOK_BASE_URL).buildUpon()
+                .appendQueryParameter(B_PARAM_REQUEST, query)
+//                .appendQueryParameter(PARAM_SORT, SORT_BY_YEAR)
+//                .appendQueryParameter(PARAM_SORT_MODE, SORT_BY_DESC)
+//                .appendQueryParameter(PARAM_RES_COUNT, RES_COUNT)
+                .appendQueryParameter(B_PARAM_EXTENSION, B_EXTENSION)
+                .appendQueryParameter(B_PARAM_LANGUAGE, B_LANGUAGE)
                 .build();
         URL url = null;
         try {
@@ -77,11 +87,11 @@ public class NetworkUtils {
                     for(Element link : links){
                         builder.append(link.ownText()).append("\n").append("----------\n");
                     }
-                    String title = builder.toString();
+                    String titles = builder.toString();
                     Message message = new Message();
                     message.what = REQUEST_CODE_SHOW_RESPONSE_TEXT;
                     Bundle bundle = new Bundle();
-                    bundle.putString(KEY_RESPONSE_TEXT, title);
+                    bundle.putString(KEY_RESPONSE_TEXT, titles);
                     message.setData(bundle);
                     uiUpdater.sendMessage(message);
                 } catch (Exception e) {
