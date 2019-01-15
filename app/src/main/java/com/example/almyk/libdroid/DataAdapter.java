@@ -46,6 +46,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     Uri uri = Uri.parse(mBookDownloadList.get(pos));
+                    // TODO : make it work using downloadmanager
 //                    DownloadManager.Request dlRequest = new DownloadManager.Request(uri);
 //                    dlRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mBookTitleList.get(pos));
 //                    dlRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/rv_book_list"
+
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchResultActivity">
+    android:layout_width="match_parent">
 
-</android.support.v7.widget.RecyclerView>
+    <ProgressBar
+        android:id="@+id/pb_getTitles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_book_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SearchResultActivity">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>
