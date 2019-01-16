@@ -27,6 +27,8 @@ public class SearchResultActivity extends AppCompatActivity {
     private ArrayList<String> mBookTitleList = new ArrayList<>();
     private ArrayList<String> mBookDownload = new ArrayList<>();
     private ArrayList<String> mAuthorList = new ArrayList<>();
+    private ArrayList<String> mPublishYearList = new ArrayList<>();
+    private ArrayList<String> mFileTypeList = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
@@ -79,8 +81,44 @@ public class SearchResultActivity extends AppCompatActivity {
                 // get authors
                 Elements authors = doc.select("div[class=authors]");
                 for(Element author : authors){
+                    int i, j;
                     String name = author.text();
+
+                    // show only first author
+                    i = name.indexOf('[');
+                    j = name.indexOf(']');
+                    if(i != -1 && j != -1){
+                        name = name.substring(0,i) + name.substring(j+1);
+                    }
+
+                    i = name.indexOf(',');
+                    j = name.indexOf('&');
+                    if((i < j || j == -1) && i != -1){
+                        name = name.substring(0, i) + " et al.";
+                    }
+                    else if((i > j || i == -1) && j != -1) {
+                        name = name.substring(0, j) + " et al.";
+                    }
+
                     mAuthorList.add(name);
+                    mProgressBar.incrementProgressBy(1);
+                }
+
+                // get publish year
+                Elements publishedYears = doc.select("div[class*=property_year]");
+                for(Element pubYear : publishedYears){
+                    String year = pubYear.text();
+                    mPublishYearList.add(year);
+                    mProgressBar.incrementProgressBy(1);
+                }
+
+                // get filetype
+                Elements fileTypes = doc.select("div[class*=property__file]");
+                for(Element fileType: fileTypes){
+                    String type = fileType.text();
+                    int i = type.indexOf(',');
+                    type = type.substring(0,i);
+                    mFileTypeList.add(type);
                     mProgressBar.incrementProgressBy(1);
                 }
 
@@ -97,7 +135,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
-            DataAdapter mDataAdapter = new DataAdapter(mBookTitleList, mBookDownload, mAuthorList);
+            DataAdapter mDataAdapter = new DataAdapter(mBookTitleList, mBookDownload, mAuthorList, mPublishYearList, mFileTypeList);
             mRecyclerView.setAdapter(mDataAdapter);
         }
     }
