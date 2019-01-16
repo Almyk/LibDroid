@@ -1,11 +1,14 @@
 package com.example.almyk.libdroid;
 
 import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,9 +47,26 @@ public class SearchResultActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.pb_getTitles);
         mPleaseWait = findViewById(R.id.tv_pls_wait);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         final String query = getIntent().getStringExtra("query");
         mUrl = NetworkUtils.buildUrl(query);
         new getTitles().execute();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id){
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class getTitles extends AsyncTask<Void, Void, Void>{
