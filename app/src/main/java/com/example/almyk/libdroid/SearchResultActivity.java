@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.almyk.libdroid.utilities.NetworkUtils;
 
@@ -32,6 +33,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private TextView mPleaseWait;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.rv_book_list);
         mProgressBar = findViewById(R.id.pb_getTitles);
+        mPleaseWait = findViewById(R.id.tv_pls_wait);
 
         final String query = getIntent().getStringExtra("query");
         mUrl = NetworkUtils.buildUrl(query);
@@ -53,6 +56,7 @@ public class SearchResultActivity extends AppCompatActivity {
             super.onPreExecute();
             mProgressBar.setProgress(0);
             mProgressBar.setVisibility(View.VISIBLE);
+            mPleaseWait.setVisibility(View.VISIBLE);
 
         }
 
@@ -132,6 +136,7 @@ public class SearchResultActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             mProgressBar.setVisibility(View.INVISIBLE);
+            mPleaseWait.setVisibility(View.INVISIBLE);
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
