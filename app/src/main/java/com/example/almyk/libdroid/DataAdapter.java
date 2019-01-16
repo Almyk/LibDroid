@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,9 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> {
 
-    private ArrayList<String> mBookTitleList = new ArrayList<>();
-    private ArrayList<String> mBookDownloadList = new ArrayList<>();
-    private ArrayList<String> mAuthorList = new ArrayList<>();
+    private ArrayList<String> mBookTitleList;
+    private ArrayList<String> mBookDownloadList;
+    private ArrayList<String> mAuthorList;
 
     public DataAdapter(ArrayList<String> bookTitleList, ArrayList<String> bookDownloadList, ArrayList<String> authorList){
         mBookTitleList = bookTitleList;
@@ -36,32 +37,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
 
         private TextView tv_book_title;
         private TextView tv_author_name;
-        private ImageButton ib_book_download;
 
 
         public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
             tv_book_title = itemView.findViewById(R.id.tv_book_title);
             tv_author_name = itemView.findViewById(R.id.tv_author_name);
-            ib_book_download = itemView.findViewById(R.id.ib_download);
-
-            ib_book_download.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    Uri uri = Uri.parse(mBookDownloadList.get(pos));
-                    // TODO : make it work using downloadmanager
-//                    DownloadManager.Request dlRequest = new DownloadManager.Request(uri);
-//                    dlRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mBookTitleList.get(pos));
-//                    dlRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//                    DownloadManager dm = (DownloadManager) v.getContext().getSystemService(DOWNLOAD_SERVICE);
-//                    dm.enqueue(dlRequest);
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    Intent intent = new Intent(v.getContext(), ViewBookActivity.class);
-                    intent.putExtra("url", uri.toString());
-                    v.getContext().startActivity(intent);
-                }
-            });
         }
     }
 
@@ -75,9 +56,21 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
         myViewHolder.tv_book_title.setText(mBookTitleList.get(i));
         myViewHolder.tv_author_name.setText(mAuthorList.get(i));
+
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(mBookDownloadList.get(i));
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.intent.setPackage("com.android.chrome");
+                customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                customTabsIntent.launchUrl(v.getContext(), uri);
+            }
+        });
     }
 
     @Override

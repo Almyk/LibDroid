@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 public class SearchResultActivity extends AppCompatActivity {
 
-    //private TextView test;
-
     private URL mUrl;
 
     private ArrayList<String> mBookTitleList = new ArrayList<>();
