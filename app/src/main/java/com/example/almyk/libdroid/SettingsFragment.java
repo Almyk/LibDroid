@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         for(int i = 0; i < preferenceScreen.getPreferenceCount(); i++){
-            setSummary(getPreferenceScreen().getPreference(i));
+            setSummary(preferenceScreen.getPreference(i));
         }
     }
 

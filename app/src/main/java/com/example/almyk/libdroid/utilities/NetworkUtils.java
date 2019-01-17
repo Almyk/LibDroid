@@ -54,9 +54,6 @@ public class NetworkUtils {
     public static URL buildUrl(String query){
         Uri.Builder builder = Uri.parse(BOK_BASE_URL).buildUpon()
                 .appendQueryParameter(B_PARAM_REQUEST, query)
-//                .appendQueryParameter(PARAM_SORT, SORT_BY_YEAR)
-//                .appendQueryParameter(PARAM_SORT_MODE, SORT_BY_DESC)
-//                .appendQueryParameter(PARAM_RES_COUNT, RES_COUNT)
                 .appendQueryParameter(B_PARAM_LANGUAGE, mLanguage);
 
         if(mOnlyEpub)

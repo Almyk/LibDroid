@@ -38,7 +38,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private TextView mPleaseWait;
+    private TextView mPleaseWaitView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.rv_book_list);
         mProgressBar = findViewById(R.id.pb_getTitles);
-        mPleaseWait = findViewById(R.id.tv_pls_wait);
+        mPleaseWaitView = findViewById(R.id.tv_pls_wait);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
@@ -87,7 +87,7 @@ public class SearchResultActivity extends AppCompatActivity {
             super.onPreExecute();
             mProgressBar.setProgress(0);
             mProgressBar.setVisibility(View.VISIBLE);
-            mPleaseWait.setVisibility(View.VISIBLE);
+            mPleaseWaitView.setVisibility(View.VISIBLE);
 
         }
 
@@ -167,7 +167,7 @@ public class SearchResultActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             mProgressBar.setVisibility(View.INVISIBLE);
-            mPleaseWait.setVisibility(View.INVISIBLE);
+            mPleaseWaitView.setVisibility(View.INVISIBLE);
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
