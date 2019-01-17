@@ -11,6 +11,7 @@
     <EditTextPreference
         android:defaultValue="english"
         android:key="language"
-        android:title="Set language for query"/>
+        android:title="Set language for query"
+        android:summary="english"/>
 
 </PreferenceScreen>
