@@ -7,4 +7,10 @@
         android:title="Show only epub files"
         android:summaryOn="only epubs"
         android:summaryOff="all files"/>
+
+    <EditTextPreference
+        android:defaultValue="english"
+        android:key="language"
+        android:title="Set language for query"/>
+
 </PreferenceScreen>

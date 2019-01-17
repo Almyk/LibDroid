@@ -65,6 +65,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private void setupSharedPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         NetworkUtils.setFileType(sharedPreferences.getBoolean("only_epub", true));
+        NetworkUtils.setLanguage(sharedPreferences.getString("language", "english"));
     }
 
     @Override

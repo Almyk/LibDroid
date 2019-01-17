@@ -44,10 +44,12 @@ public class NetworkUtils {
     private static Handler uiUpdater;
 
     private static Boolean mOnlyEpub;
+    private static String mLanguage;
 
     public static void setFileType(Boolean onlyEpub){
         mOnlyEpub = onlyEpub;
     }
+    public static void setLanguage(String language) { mLanguage = language; }
 
     public static URL buildUrl(String query){
         Uri.Builder builder = Uri.parse(BOK_BASE_URL).buildUpon()
@@ -55,7 +57,7 @@ public class NetworkUtils {
 //                .appendQueryParameter(PARAM_SORT, SORT_BY_YEAR)
 //                .appendQueryParameter(PARAM_SORT_MODE, SORT_BY_DESC)
 //                .appendQueryParameter(PARAM_RES_COUNT, RES_COUNT)
-                .appendQueryParameter(B_PARAM_LANGUAGE, B_LANGUAGE);
+                .appendQueryParameter(B_PARAM_LANGUAGE, mLanguage);
 
         if(mOnlyEpub)
             builder.appendQueryParameter(B_PARAM_EXTENSION, B_EXTENSION);
