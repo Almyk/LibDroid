@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="only_epub"
+        android:title="Show only epub files"
+        android:summaryOn="only epubs"
+        android:summaryOff="all files"/>
 </PreferenceScreen>
