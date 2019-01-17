@@ -49,7 +49,7 @@ public class NetworkUtils {
     public static void setFileType(Boolean onlyEpub){
         mOnlyEpub = onlyEpub;
     }
-    public static void setLanguage(String language) { mLanguage = language; }
+    public static void setLanguage(String language) { mLanguage = language.toLowerCase(); }
 
     public static URL buildUrl(String query){
         Uri.Builder builder = Uri.parse(BOK_BASE_URL).buildUpon()
