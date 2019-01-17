@@ -1,10 +1,14 @@
 package com.example.almyk.libdroid.utilities;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.widget.TextView;
+
+import com.example.almyk.libdroid.MainActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -39,15 +43,24 @@ public class NetworkUtils {
     private static final String KEY_RESPONSE_TEXT = "KEY_RESPONSE_TEXT";
     private static Handler uiUpdater;
 
+    private static Boolean mOnlyEpub;
+
+    public static void setFileType(Boolean onlyEpub){
+        mOnlyEpub = onlyEpub;
+    }
+
     public static URL buildUrl(String query){
-        Uri uri = Uri.parse(BOK_BASE_URL).buildUpon()
+        Uri.Builder builder = Uri.parse(BOK_BASE_URL).buildUpon()
                 .appendQueryParameter(B_PARAM_REQUEST, query)
 //                .appendQueryParameter(PARAM_SORT, SORT_BY_YEAR)
 //                .appendQueryParameter(PARAM_SORT_MODE, SORT_BY_DESC)
 //                .appendQueryParameter(PARAM_RES_COUNT, RES_COUNT)
-                .appendQueryParameter(B_PARAM_EXTENSION, B_EXTENSION)
-                .appendQueryParameter(B_PARAM_LANGUAGE, B_LANGUAGE)
-                .build();
+                .appendQueryParameter(B_PARAM_LANGUAGE, B_LANGUAGE);
+
+        if(mOnlyEpub)
+            builder.appendQueryParameter(B_PARAM_EXTENSION, B_EXTENSION);
+
+        Uri uri = builder.build();
         URL url = null;
         try {
             url = new URL(uri.toString());

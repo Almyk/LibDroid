@@ -16,8 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements View.OnClickListener,
-        TextView.OnEditorActionListener {
+        implements View.OnClickListener, TextView.OnEditorActionListener {
 
 
     private ImageButton mSearchButton;

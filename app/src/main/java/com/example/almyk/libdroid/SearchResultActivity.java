@@ -1,6 +1,8 @@
 package com.example.almyk.libdroid;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -52,9 +54,17 @@ public class SearchResultActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        setupSharedPreferences();
+
         final String query = getIntent().getStringExtra("query");
         mUrl = NetworkUtils.buildUrl(query);
+
         new getTitles().execute();
+    }
+
+    private void setupSharedPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        NetworkUtils.setFileType(sharedPreferences.getBoolean("only_epub", true));
     }
 
     @Override
