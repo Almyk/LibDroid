@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity
 
     private void launchSearchResult(){
         String query = mQueryText.getText().toString();
+        mQueryText.getText().clear();
         if(!TextUtils.isEmpty(query)) {
             Intent intent = new Intent(this, SearchResultActivity.class);
             intent.putExtra("query", query);
